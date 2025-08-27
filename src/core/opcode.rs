@@ -657,6 +657,15 @@ impl<'a> BytecodeFunction<'a> {
                     output: o,
                 };
             }
+            Operator::I32AtomicRmwCmpxchg { .. } => {
+                // [i32 i32 i32] -> [i32]
+                let i = vec![WasmType::I32, WasmType::I32, WasmType::I32];
+                let o = vec![WasmType::I32];
+                return OpInfo {
+                    input: i,
+                    output: o,
+                };
+            }
             ref _other => {
                 unimplemented!("Unsupported operator: {:?}", op);
             }
