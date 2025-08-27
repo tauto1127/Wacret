@@ -666,6 +666,51 @@ impl<'a> BytecodeFunction<'a> {
                     output: o,
                 };
             }
+            Operator::MemoryInit { data_index, mem } => {
+                // [i32 i32 i32] -> []
+                let i = vec![WasmType::I32, WasmType::I32, WasmType::I32];
+                let o = vec![];
+                return OpInfo {
+                    input: i,
+                    output: o,
+                };
+            }
+            Operator::I32AtomicStore { memarg } => {
+                // [i32 i32] -> []
+                let i = vec![WasmType::I32, WasmType::I32];
+                let o = vec![];
+                return OpInfo {
+                    input: i,
+                    output: o,
+                };
+            }
+            Operator::MemoryAtomicNotify { memarg } => {
+                // [i32 i32] -> [i32]
+                let i = vec![WasmType::I32, WasmType::I32];
+                let o = vec![WasmType::I32];
+                return OpInfo {
+                    input: i,
+                    output: o,
+                };
+            }
+            Operator::MemoryAtomicWait32 { memarg } => {
+                // [i32 i32 i64] -> [i32]
+                let i = vec![WasmType::I32, WasmType::I32, WasmType::I64];
+                let o = vec![WasmType::I32];
+                return OpInfo {
+                    input: i,
+                    output: o,
+                };
+            }
+            Operator::DataDrop { data_index } => {
+                // [i32] -> []
+                let i = vec![WasmType::I32];
+                let o = vec![];
+                return OpInfo {
+                    input: i,
+                    output: o,
+                };
+            }
             ref _other => {
                 unimplemented!("Unsupported operator: {:?}", op);
             }
