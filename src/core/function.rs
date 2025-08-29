@@ -416,10 +416,40 @@ impl<'a> BytecodeFunction<'a> {
                 v.pop();
                 v.pop();
             }
+            Operator::MemoryInit{ .. } => {
+                // [i32 i32 i32] -> []
+                v.pop();
+                v.pop();
+                v.pop();
+            }
+            Operator::DataDrop{ .. } => {
+                // [] -> [] (no stack effect)
+            }
+            Operator::I32AtomicRmwCmpxchg { memarg } => {
+                // [i32 i32 i32] -> [i32]
+                v.pop();
+                v.pop();
+                v.push(1);
+            }
+            Operator::I32AtomicStore { memarg } => {
+                // [i32 i32] -> []
+                v.pop();
+                v.pop();
+            }
+            Operator::MemoryAtomicNotify { memarg } => {
+                // [i32 i32] -> [i32]
+                v.pop();
+            }
+            Operator::MemoryAtomicWait32 { memarg } => {
+                // [i32 i32] -> [i32]
+                v.pop();
+                v.pop();
+                v.push(1);
+            }
 
             ref _other => {
                 // println!("[WARN]: {:?}", op);
-                return Err("Unsupprted operator".to_string());
+                return Err(format!("function.rs Unsupported operator: {:?}", op));
             }
         }
         return Ok(0);

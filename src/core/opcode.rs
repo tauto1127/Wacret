@@ -543,7 +543,8 @@ impl<'a> BytecodeFunction<'a> {
             Operator::F32ConvertI64S | Operator::F32ConvertI64U => {
                 // [i64] -> [f32]
                 let i = vec![WasmType::I64];
-                let o = vec![WasmType::F64];
+                let o = vec![WasmType::F32];
+                // let o = vec![WasmType::F64];
 
                 return OpInfo {
                     input: i,
@@ -656,6 +657,16 @@ impl<'a> BytecodeFunction<'a> {
                     input: i,
                     output: o,
                 };
+            }
+            Operator::MemoryInit { .. } => {
+                // [i32 i32 i32] -> []
+                let i = vec![WasmType::I32, WasmType::I32, WasmType::I32];
+                let o = vec![];
+                return OpInfo { input: i, output: o };
+            }
+            Operator::DataDrop { .. } => {
+                // [] -> []
+                return OpInfo { input: vec![], output: vec![] };
             }
             Operator::I32AtomicRmwCmpxchg { .. } => {
                 // [i32 i32 i32] -> [i32]
