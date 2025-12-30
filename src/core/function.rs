@@ -429,6 +429,7 @@ impl<'a> BytecodeFunction<'a> {
                 // [i32 i32 i32] -> [i32]
                 v.pop();
                 v.pop();
+                v.pop();
                 v.push(1);
             }
             Operator::I32AtomicStore { memarg } => {
@@ -436,12 +437,21 @@ impl<'a> BytecodeFunction<'a> {
                 v.pop();
                 v.pop();
             }
+            Operator::I32AtomicRmwXchg { memarg } => {
+                // [i32 i32] -> [i32]
+                v.pop();
+                v.pop();
+                v.push(1);
+            }
             Operator::MemoryAtomicNotify { memarg } => {
                 // [i32 i32] -> [i32]
                 v.pop();
+                v.pop();
+                v.push(1);
             }
             Operator::MemoryAtomicWait32 { memarg } => {
-                // [i32 i32] -> [i32]
+                // [i32 i32 i64] -> [i32]
+                v.pop();
                 v.pop();
                 v.pop();
                 v.push(1);
