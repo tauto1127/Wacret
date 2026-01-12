@@ -432,6 +432,17 @@ impl<'a> BytecodeFunction<'a> {
                 v.pop();
                 v.push(1);
             }
+            Operator::I32AtomicRmwAdd { memarg } => {
+                // [i32 i32] -> [i32]
+                v.pop();
+                v.pop();
+                v.push(1);
+            }
+            Operator::I32AtomicLoad { memarg } => {
+                // [i32] -> [i32]
+                v.pop();
+                v.push(1);
+            }
             Operator::I32AtomicStore { memarg } => {
                 // [i32 i32] -> []
                 v.pop();

@@ -677,6 +677,24 @@ impl<'a> BytecodeFunction<'a> {
                     output: o,
                 };
             }
+            Operator::I32AtomicRmwAdd { .. } => {
+                // [i32 i32] -> [i32]
+                let i = vec![WasmType::I32, WasmType::I32];
+                let o = vec![WasmType::I32];
+                return OpInfo {
+                    input: i,
+                    output: o,
+                };
+            }
+            Operator::I32AtomicLoad { .. } => {
+                // [i32] -> [i32]
+                let i = vec![WasmType::I32];
+                let o = vec![WasmType::I32];
+                return OpInfo {
+                    input: i,
+                    output: o,
+                };
+            }
             Operator::I32AtomicStore { memarg } => {
                 // [i32 i32] -> []
                 let i = vec![WasmType::I32, WasmType::I32];
